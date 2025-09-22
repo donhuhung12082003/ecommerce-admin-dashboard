@@ -1,0 +1,106 @@
+﻿@model WebThucPham.Models.SanPham
+
+@{
+    ViewBag.Title = "Thêm sản phẩm mới";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Thêm sản phẩm</h2>
+<form method="post" enctype="multipart/form-data">
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên sản phẩm</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Mô tả</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin:10px 0px">
+            <label class="control-label col-md-2">Đơn giá</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
+            </div>
+            <label class="control-label col-md-2">Năm sản xuất</label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.NamSanXuat, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                @Html.ValidationMessageFor(model => model.NamSanXuat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin:10px 0px">
+            <label class="control-label col-md-2">Thời gian tạo</label>
+            <div class="col-md-4">
+                <input type="datetime-local" name="ThoiGianTao" class="form-control" value="@(string.Format("{0:yyyy-MM-dd HH:mm}",@Model.ThoiGianTao ))" />
+            </div>
+
+            <label class="control-label col-md-2">Phân loại</label>
+            <div class="col-md-4">
+                <select name="PhanLoai" class="form-control col-md-4">
+                    <option value="loại 1">Loại 1</option>
+                    <option value="loại 2">Loại 2</option>
+                    <option value="loại 3">Loại 3</option>
+                    <option value="loại 4">Loại 4</option>"
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row" style="margin:10px 0px">
+            <label class="control-label col-md-2">Email nhà cung cấp</label>
+            <div class="col-md-4">
+                <input type="email" name="EmailNCC" />
+            </div>
+            <label class="control-label col-md-2">Số điện thoại nhà cung cấp</label>
+            <div class="col-md-4">
+                <input type="tel" name="SoDienThoaiNCC" pattern="[0-9]{10}" />
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin:10px 0px">
+            <label class="control-label col-md-2">Màu sắc</label>
+            <div class="col-md-4">
+                <input type="color" name="MauSac" />
+            </div>
+            <label class="control-label col-md-2">Hết hàng</label>
+            <div class="col-md-4">
+
+                <input type="checkbox" id="HetHang" name="HetHang" value="true" />
+                <input type="hidden" name="HetHang" value="false" />
+
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin:10px 0px">
+            <label class="control-label col-md-2">Hình ảnh</label>
+            <div class="col-md-10">
+                <input type="file" name="file" id="fileInput" accept="image/*" onchange="previewImage(event)" />
+                <button type="button" class="btn btn-danger" onclick="xoaanh()">Xóa ảnh</button>
+
+                <!-- Khung preview ảnh -->
+                <div style="margin-top:10px;">
+                    <img id="preview" src="" alt="Preview ảnh" style="max-width:200px; max-height:200px; display:none; border:1px solid #ccc; padding:5px; border-radius:5px;" />
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="form-group" style="margin:10px 0px">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-outline-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+

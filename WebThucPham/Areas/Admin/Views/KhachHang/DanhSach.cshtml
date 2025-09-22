@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebThucPham.Models.KhachHang>
+
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+
+    int stt = 0;
+}
+<h2>Danh sách khách hàng</h2>
+<div class="col-12">
+    <form method="post" action="~/Admin/KhachHang/TimKiem" style="margin:0px 200px 10px">
+        <input type="text" style="width:500px" name="thongtin" placeholder="Tìm theo tên, số điện thoại, địa chỉ" value="@TempData["thongtin"] ">
+        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+        <a href="~/Admin/KhachHang/Them" class="btn btn-outline-success">Thêm khách hàng mới</a>
+    </form>
+
+</div>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Điạ chỉ
+        </th>
+        <th>
+            Thao tác
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        stt++;
+        <tr>
+            <td>
+                @stt
+            </td>
+            <td>
+                @item.TenKhachHang
+            </td>
+            <td>
+                @item.SoDienThoai
+            </td>
+            <td>
+                @item.DiaChi
+            </td>
+
+            <td>
+                <a class="btn btn-outline-primary" href="/Admin/KhachHang/Sua?id=@item.ID">Sửa</a>
+                <a class="btn btn-outline-danger" href="javascript:void(0)" onclick="xoaKhachHang(@item.ID)" />Xóa
+            </td>
+        </tr>
+    }
+
+</table>

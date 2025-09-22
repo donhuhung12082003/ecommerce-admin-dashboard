@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebThucPham.Models.SanPham>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+
+<h2>Danh sách sản phẩm</h2>
+<div class="col-12">
+    <form method="get" action="~/Admin/SanPham/TimKiem">
+        <input  type="number" name="namsanxuat" placeholder="Năm sản xuất" value="@TempData["namsanxuat"]">
+        <input  type="number" name="dongiatu" placeholder="đơn giá từ" value="@TempData["dongiatu"]"/>
+        <input  type="number" name="dongiaden" placeholder="đơn giá đến" value="@TempData["dongiaden"]"/>
+        <input  type="text" name="tensp" placeholder="Tên sản phẩm" value="@TempData["tensp"]"/>
+        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+        <a href="~/Admin/SanPham/Them" class="btn btn-outline-success">Thêm sản phẩm mới</a>
+        <a href="~/Admin/SanPham/ThongKeSanPhamSanXuatTheoNam" class="btn btn-outline-success">Thống kê sản phẩm sản xuất theo năm</a>
+    </form>
+            
+</div>
+<div class="container mt-3">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr style="text-align:center">
+                <th>ID</th>
+                <th width="200px">Tên sản phẩm</th>
+                <th>Đơn giá</th>
+                <th width="100px">Năm sản xuất</th>
+                <th>Mô tả</th>
+                <th>Thời gian tạo</th>
+                <th>Phân loại</th>
+                <th>Màu sắc</th>
+                <th>Hết hàng</th>
+                <th>Hình ảnh</th>
+                <th>Điện thoại NCC</th>
+                <th>Email NCC</th>
+                <th>Thao tác</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(sp=>sp.ID))
+            {
+                <tr>
+                    <td>@item.ID </td>
+                    <td>@item.TenSanPham</td>
+                    <td style="text-align:right">@((item.DonGia??0).ToString("#,0"))  </td>
+                    <td style="text-align:center">@item.NamSanXuat</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.ThoiGianTao</td>
+                    <td>@item.PhanLoai</td>
+                    <td><span style="background:@item.MauSac">@item.MauSac</span></td>
+                    <td>@(item.HetHang==true?"hết":"còn") </td>
+                    <td><img src="@item.HinhAnh" style="max-width:100%; max-height:100%; object-fit:contain;"/></td>
+                    <td>@item.SoDienThoaiNCC</td>
+                    <td>@item.EmailNCC</td>
+                    <td style="align-content:center">
+                        <a style="margin:5px 0px; display:flex" class="btn btn-primary" href="/Admin/SanPham/Sua?id=@item.ID" />Sửa
+                        <a class="btn btn-outline-danger" href="javascript:void(0)" onclick="confirmDelete(@item.ID)" />Xóa
+                    </td>
+                        
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

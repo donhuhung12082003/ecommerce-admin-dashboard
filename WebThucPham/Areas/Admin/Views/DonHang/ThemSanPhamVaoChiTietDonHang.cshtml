@@ -1,0 +1,84 @@
+﻿@model WebThucPham.Models.ChiTietDonHang
+
+@{
+    ViewBag.Title = "Thêm sản phẩm mua vào đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Thêm sản phẩm mua vào đơn hàng</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <input type="hidden" name="idDonhang" value="@Model.idDonHang " />
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Tên sản phẩm</label>
+        <div class="col-md-10">
+            <select name="idSanPham" class="form-control">
+                @foreach (var sp in new WebThucPham.Models.WebThucPhamEntities().SanPhams)
+                {
+                    <option value="@sp.ID">@sp.TenSanPham</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Đơn vị tính</label>
+        <div class="col-md-10">
+            <input type="text" name="DonViTinh" value="@Model.DonViTinh" class="form-control" />
+            @Html.ValidationMessageFor(model => model.DonViTinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Số lượng</label>
+            <div class="col-md-10">
+                <input type="number" name="SoLuong" value="@Model.SoLuong " class="form-control" />
+                @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Đơn giá</label>
+            <div class="col-md-10">
+                <input type="number" name="DonGia" value="@Model.DonGia" class="form-control" />
+                @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mức thuế VAT</label>
+            <div class="col-md-10">
+                <select name="MucThueVAT">
+                    <option value="0">0%</option>
+                    <option value="0.01">1%</option>
+                    <option value="0.02">2%</option>
+                    <option value="0.03">3%</option>
+                    <option value="0.04">4%</option>
+                    <option value="0.05">5%</option>
+                    <option value="0.06">6%</option>
+                    <option value="0.07">7%</option>
+                    <option value="0.08">8%</option>
+                    <option value="0.09">9%</option>
+                    <option value="0.1">10%</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.MucThueVAT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm" class="btn btn-outline-success" />
+            </div>
+        </div>
+    </div>
+}
+
+

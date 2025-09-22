@@ -1,0 +1,141 @@
+﻿@model WebThucPham.Models.DonHang
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    int tt = 0;
+    float tongTien = 0; 
+}
+
+<h2>Thông tin chi tiết đơn hàng</h2>
+<h2>@Model.ID - @Model.NguoiNhan </h2>
+<div class="row">
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt>
+                Mã khách hàng
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.idKhachHang)
+            </dd>
+
+            <dt>
+                Thời gian đặt
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ThoiGianDat)
+            </dd>
+
+            <dt>
+                Người nhận
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NguoiNhan)
+            </dd>
+
+            <dt>
+                Số điện thoại
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SoDienThoai)
+            </dd>
+
+            <dt>
+                Địa chỉ
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DiaChiNhan)
+            </dd>
+
+            <dt>
+                Trạng thái
+            </dt>
+
+            @if (Model.TrangThai == 1)
+            {
+                <dd>
+                    Đơn mới
+                </dd>
+            }
+            else if (Model.TrangThai == 2)
+            {
+                <dd>
+                    Đang giao
+                </dd>
+            }
+            else if (Model.TrangThai == 3)
+            {
+                <dd>
+                    Đã giao
+                </dd>
+            }
+            else if (Model.TrangThai == 4)
+            {
+
+                <dd>
+                    Hoàn
+                </dd>
+
+            }
+            else
+            {
+                <dd>
+                    Đã hủy
+                </dd>
+            }
+
+
+        </dl>
+        <a class="btn btn-outline-success" href="/Admin/DonHang/Sua?id=@Model.ID">Cập nhật</a>
+    </div>
+    <div class="col-md-8">
+        <h3>Danh sách sản phẩm đặt mua</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>TT</th>
+                    <th>Tên</th>
+                    <th>Đơn vị tính</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thuế VAT</th>
+                    <th>Thành tiền(gồm VAT)</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in new WebThucPham.Models.WebThucPhamEntities().ChiTietDonHangs.Where(ctdh => ctdh.idDonHang == Model.ID))
+                {
+                    tt++;
+                    tongTien += (float)((item.SoLuong * item.DonGia) + (item.SoLuong * item.DonGia * item.MucThueVAT));
+                    <tr>
+                        <td>@tt</td>
+                        <td>@item.TenSanPham </td>
+                        <td>@item.DonViTinh </td>
+                        <td>@item.SoLuong  </td>
+                        <td>@item.DonGia  </td>
+                        <td>@item.MucThueVAT</td>
+                        <td>@(string.Format("{0:N0}", (item.SoLuong * item.DonGia) + (item.SoLuong * item.DonGia * item.MucThueVAT)))</td>
+                        <td>
+                            
+                            <a class="btn btn-outline-primary" href="/Admin/DonHang/SuaChiTietDonHang?id=@item.ID">Sửa</a>
+                            <a class="btn btn-outline-danger" href="javascript:void(0)" onclick="xoaChiTietDonHang(@item.ID)">Xóa</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6" style="text-align:right"><strong>Tổng tiền:</strong></td>
+                    <td><strong>@(string.Format("{0:N0}", tongTien)) VNĐ</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-outline-primary" href="/Admin/DonHang/ThemSanPhamVaoChiTietDonHang?id=@Model.ID">Thêm sản phẩm mua</a>
+    </div>
+
+</div>
+

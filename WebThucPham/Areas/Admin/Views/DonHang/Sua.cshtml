@@ -1,0 +1,81 @@
+﻿@model WebThucPham.Models.DonHang
+
+@{
+    ViewBag.Title = "Cập nhật thông tin đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Thông tin đơn hàng</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên khách hàng</label>
+            <div class="col-md-10">
+                <select name="idkhachhang">
+                    @foreach (var kh in new WebThucPham.Models.WebThucPhamEntities().KhachHangs)
+                    {
+                        <option @(kh.ID == Model.idKhachHang ? "selected" : "") value="@kh.ID">@kh.TenKhachHang | @kh.SoDienThoai</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.idKhachHang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Người nhận</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NguoiNhan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NguoiNhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Số điện thoại người nhận</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Địa chỉ</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DiaChiNhan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DiaChiNhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Trạng thái</label>
+            <div class="col-md-10">
+               <select name="TrangThai">
+                   <option value="1" @(Model.TrangThai==1?"selected":"")>Đơn mới</option>
+                   <option value="2" @(Model.TrangThai==2?"selected":"")>Đang giao</option>
+                   <option value="3" @(Model.TrangThai==3?"selected":"")>Thành công</option>
+                   <option value="4" @(Model.TrangThai==4?"selected":"")>Hoàn</option>
+                   <option value="4" @(Model.TrangThai==5?"selected":"")>Đã Hủy</option>
+               </select>
+                @Html.ValidationMessageFor(model => model.TrangThai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+

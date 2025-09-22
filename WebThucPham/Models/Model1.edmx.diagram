@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6e2c4fdb57ab45d88b285bcc68bd0c2d" Name="Diagram1">
+        <EntityTypeShape EntityType="WebThucPhamModel.ChiTietDonHang" Width="1.5" PointX="4" PointY="0.75" />
+        <EntityTypeShape EntityType="WebThucPhamModel.DonHang" Width="1.5" PointX="1.75" PointY="0.875" />
+        <EntityTypeShape EntityType="WebThucPhamModel.KhachHang" Width="1.5" PointX="6.75" PointY="0.5" />
+        <EntityTypeShape EntityType="WebThucPhamModel.SanPham" Width="1.5" PointX="1.75" PointY="5.5" />
+        <AssociationConnector Association="WebThucPhamModel.FK_ChiTietDonHang_DonHang" />
+        <EntityTypeShape EntityType="WebThucPhamModel.ChucNang" Width="1.5" PointX="6.625" PointY="5.875" />
+        <EntityTypeShape EntityType="WebThucPhamModel.NhomChucNang" Width="1.5" PointX="4.375" PointY="6.125" />
+        <EntityTypeShape EntityType="WebThucPhamModel.PhanQuyenChucNang" Width="1.5" PointX="8.875" PointY="5.875" />
+        <EntityTypeShape EntityType="WebThucPhamModel.TaiKhoan" Width="1.5" PointX="6.625" PointY="8.875" />
+        <AssociationConnector Association="WebThucPhamModel.FK_ChucNang_NhomChucNang" />
+        <AssociationConnector Association="WebThucPhamModel.FK_PhanQuyenChucNang_ChucNang" />
+        <AssociationConnector Association="WebThucPhamModel.FK_PhanQuyenChucNang_TaiKhoan" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

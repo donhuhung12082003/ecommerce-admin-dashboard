@@ -1,0 +1,72 @@
+﻿@model WebThucPham.Models.TaiKhoan
+
+@{
+
+    ViewBag.Title = "Chi tiết tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    
+}
+
+<h2>Thông tin chi tiết tài khoản</h2>
+
+<div class="row">
+    <dl class="dl-horizontal col-md-4">
+        <dt>
+            username
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            Password
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            Họ và tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoVaTen)
+        </dd>
+
+        <dt>
+            Số điện thoại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+
+    </dl>
+    <div class="col-md-8">
+        <table class="table table-striped table-bordered">
+           @foreach(var nhomCN in new WebThucPham.Models.WebThucPhamEntities().NhomChucNangs)
+            {
+                <tr>
+                    <th>
+                        @nhomCN.TenNhomChucNang
+                    </th>
+                    @foreach (var cn in new WebThucPham.Models.WebThucPhamEntities().ChucNangs.Where(c=>c.idNhomChucNang==nhomCN.ID))
+                    {
+                        <td>
+                            <form  id="@Model.Username-@cn.ID" action="~/Admin/TaiKhoan/LuuPhanQuyen">
+                                <input type="hidden" name="username" value="@Model.Username" />
+                                <input type="hidden" name="idChucNang" value="@cn.ID" />
+
+                                @cn.TenChucNang
+                                <input  type="checkbox" @(new WebThucPham.Models.WebThucPhamEntities().PhanQuyenChucNangs.Any(pq => pq.idChucNang == cn.ID && pq.Username == Model.Username) ? "checked" : "")  onchange="document.getElementById('@Model.Username-@cn.ID').submit()" />
+                            </form>
+                            
+                        </td>
+                    }
+                </tr>
+            }
+</table>
+    </div>
+</div>

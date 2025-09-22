@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WebThucPham.Models.spDanhSachDonHang_Result>
+
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách đơn hàng</h2>
+<div class="col-12">
+    <form method="get" action="~/Admin/DonHang/TimKiem">
+        <input type="date" name="ngay" placeholder="Ngày đặt hàng" value="@(string.Format("{0:yyyy-MM-dd}", (DateTime?)TempData["ngay"]))">
+        <select name="idkhachhang">
+            <option @((int)(TempData["idkhachhang"] ?? 0) == 0 ? "selected" : "") >Tất cả khách hàng</option>
+            @foreach (var kh in new WebThucPham.Models.WebThucPhamEntities().KhachHangs)
+            {
+                <option @((kh.ID == (int)(TempData["idkhachhang"] ?? 0)) ? "selected" : "") value="@kh.ID">@kh.TenKhachHang | @kh.SoDienThoai</option>
+            }
+
+        </select>
+        <input type="text" name="nguoinhan" placeholder="Người nhận" value="@TempData["nguoinhan"]" />
+        <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+        
+    </form>
+
+</div>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Điện thoại
+        </th>
+        <th>
+            Tổng tiền
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.STT)
+        </td>
+        <td>
+            <a href="/Admin/DonHang/ChiTiet?iddonhang=@item.ID">@Html.DisplayFor(modelItem => item.TenKhachHang)</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DienThoai)
+        </td>
+        @if (item.TongTien == null)
+        {
+            <td>0</td>
+        }
+        else
+        {
+            <td>
+                @String.Format("{0:N0}", item.TongTien) VNĐ
+            </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.TrangThai)
+        </td>
+       
+    </tr>
+}
+</table>
